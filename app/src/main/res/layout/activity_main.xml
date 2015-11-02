@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="com.example.notebook.legoopengl.GamePlayView"
+        android:id="@+id/view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/linearLayout" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/setCube"
+            android:layout_weight="1"
+            android:onClick="onClickBtn"
+            android:text="Cube Cube!" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Choose Cube"
+            android:id="@+id/chCube"
+            android:layout_weight="1"
+            android:onClick="onClickBtn" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Hide Trans Cubes"
+            android:id="@+id/hideTr"
+            android:layout_weight="1"
+            android:onClick="onClickBtn" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Restore"
+            android:id="@+id/restore"
+            android:layout_weight="1"
+            android:onClick="onClickBtn"
+            android:singleLine="false" />
+    </LinearLayout>
+
+</RelativeLayout>
