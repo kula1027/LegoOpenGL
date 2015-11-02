@@ -20,11 +20,14 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     Camera camera;
     Stack3d stack3d = new Stack3d();
     List<Cube> cubeList = new ArrayList<Cube>();
+    PointingArrow pa = new PointingArrow();
+
+    Vector3 pointingPos = new Vector3(0, 1, 0);
     int currentColor;
     boolean displayTrans;
 
     public MainRenderer() {
-        camera = new Camera(15f, new Vector3(0f, 5f, 0f));
+        camera = new Camera(new Vector3(0f, 5f, 0f));
         displayTrans = true;
     }
 
@@ -44,7 +47,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
+        gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
@@ -68,7 +71,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         if(tempLevel == -1)return;
         Cube tempCube;
         if(currentColor == 0){tempCube = new Cube(currentColor, new Vector3(0, 20, 0), true);}
-        else{tempCube = new Cube(currentColor, new Vector3(0, 20, 0), false);}
+        else{tempCube = new Cube(currentColor, new Vector3(0, Config.dropYpos, 0), false);}
         cubeList.add(tempCube);
         tempCube.drop(tempLevel);
     }
@@ -82,7 +85,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         gl.glLoadIdentity();
         camera.setCamera(gl);
 
-        gl.glEnable(GL10.GL_BLEND);
+        pa.draw(gl);
         for(int loop = 0; loop < cubeList.size(); loop++){
             if(displayTrans) {
                 cubeList.get(loop).draw(gl);

@@ -11,19 +11,19 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by notebook on 2015-10-31.
  */
 public class Camera {
-    Vector3 position;
-    Vector3 rotation;
-    Vector3 lookingDir;
-    boolean isRotating;
-    float distance;
-    int direction;
+    private Vector3 position;
+    private Vector3 rotation;
+    private Vector3 lookingDir;
+    private boolean isRotating;
+    private float distance;
+    private int direction;
 
-    Camera(float distance_, Vector3 lookingDir_) {
+    Camera( Vector3 lookingDir_) {
         rotation = new Vector3(45f, 45f, 45f);
         lookingDir = lookingDir_;
         isRotating = false;
 
-        distance = distance_;
+        distance = Config.cameraDistance;
 
         float cosValue = (float)Math.cos(Math.toRadians(45f)) * distance;
         float sinValue = (float)Math.sin(Math.toRadians(45f)) * distance;
@@ -43,5 +43,8 @@ public class Camera {
         float sinValue = (float)Math.sin(Math.toRadians(rotation.y));
         position.x = cosValue * distance;
         position.z = sinValue * distance;
+    }
+    public float getRotation(){
+        return rotation.y;
     }
 }

@@ -12,7 +12,7 @@ import com.example.notebook.legoopengl.R;
 /**
  * Created by notebook on 2015-11-01.
  */
-public class PopUpSetColor extends Activity {
+public class PopUpSetColor {
     private View popUpView;
     private PopupWindow popupWindow;
 
@@ -21,7 +21,7 @@ public class PopUpSetColor extends Activity {
         popupWindow = new PopupWindow(popUpView, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     }
 
-    public void showORhide(){
+    public void toggleView(){
         if(popupWindow.isShowing()){
             popupWindow.dismiss();
         }else {

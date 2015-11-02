@@ -4,16 +4,16 @@ package com.example.notebook.legoopengl;
  * Created by notebook on 2015-10-31.
  */
 public class Vector3 {
-    float x;
-    float y;
-    float z;
+    public float x;
+    public float y;
+    public float z;
 
-    Vector3() {
+    public Vector3() {
         x = 0;
         y = 0;
         z = 0;
     }
-    Vector3(float x_, float y_, float z_) {
+    public Vector3(float x_, float y_, float z_) {
         x = x_;
         y = y_;
         z = z_;

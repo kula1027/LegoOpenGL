@@ -9,6 +9,8 @@ public class Stack3d {
     public boolean data[][][] = new boolean[Config.size[0]][Config.size[1]][Config.size[2]];//x, y, z
     public Vector3 preLocation = new Vector3();
     public int depthTest(int x_, int z_){//해당 xy좌표의 가장 높은 열린값 리턴, 해당 배열 true로 변환
+        if(data[x_][Config.size[1] - 1][z_] == true)return -1;
+
         for(int loop = Config.size[1] - 2; loop >= 0 ; loop--){
             if(data[x_][loop][z_]){
                 data[x_][loop + 1][z_] = true;

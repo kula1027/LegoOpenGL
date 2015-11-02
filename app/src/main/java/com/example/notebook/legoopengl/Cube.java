@@ -105,10 +105,10 @@ public class Cube {
             6, 7, 13,
             7, 13, 15
     };
-    float color[];
-    FloatBuffer vertbuf;
-    FloatBuffer colorbuf;
-    ByteBuffer indexbuf;
+    private float color[];
+    private FloatBuffer vertbuf;
+    private FloatBuffer colorbuf;
+    private ByteBuffer indexbuf;
     Vector3 position;
     Vector3 velocity;
     boolean isTransCube;
@@ -119,8 +119,8 @@ public class Cube {
         }
 
         color = CubeColor.color[colorIndex];
-        vertbuf = ArrayToBuffer(vert);
-        colorbuf = ArrayToBuffer(color);
+        vertbuf = arrayToBuffer(vert);
+        colorbuf = arrayToBuffer(color);
 
         indexbuf = ByteBuffer.allocateDirect(index.length);
         indexbuf.put(index);
@@ -175,7 +175,7 @@ public class Cube {
         gl.glPopMatrix();
     }
 
-    public FloatBuffer ArrayToBuffer(float[] ar) {
+    public FloatBuffer arrayToBuffer(float[] ar) {
         ByteBuffer bytebuf = ByteBuffer.allocateDirect(ar.length * 4);
         bytebuf.order(ByteOrder.nativeOrder());
         FloatBuffer buf = bytebuf.asFloatBuffer();

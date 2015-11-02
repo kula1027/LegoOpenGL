@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_arrow"
+    android:background="#ffffffff"
+    android:padding="20dp">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
-            android:background="@drawable/arrow_lu"
-            android:onClick="onClickBtn" />
+            android:id="@+id/arrow_lu"
+            android:src="@drawable/arrow_lu" />
 
-        <Button
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:background="@drawable/arrow_ru"
-            android:onClick="onClickBtn" />
+            android:id="@+id/arrow_ru"
+            android:src="@drawable/arrow_ru" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -28,18 +30,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <Button
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
-            android:background="@drawable/arrow_ld"
-            android:onClick="onClickBtn" />
+            android:id="@+id/arrow_ld"
+            android:src="@drawable/arrow_ld"
+            android:background="#ffff5a4a" />
 
-        <Button
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button4"
-            android:background="@drawable/arrow_rd"
-            android:onClick="onClickBtn" />
+            android:id="@+id/arrow_rd"
+            android:src="@drawable/arrow_rd" />
     </LinearLayout>
 </LinearLayout>

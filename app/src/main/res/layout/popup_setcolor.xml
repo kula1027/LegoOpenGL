@@ -18,8 +18,11 @@
                 android:layout_height="match_parent"
                 android:id="@+id/btn_trans"
                 android:layout_weight="1"
-                android:text="00"
-                android:onClick="onClickBtn" />
+                android:text="Trans"
+                android:onClick="onClickBtn"
+                android:background="#89feffa5"
+                android:minHeight="60dp"
+                android:minWidth="60dp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -27,16 +30,21 @@
                 android:id="@+id/btn_blue"
                 android:layout_weight="1"
                 android:background="#ff1919cc"
-                android:text="00"
-                android:onClick="onClickBtn" />
+                android:text="Blue"
+                android:onClick="onClickBtn"
+                android:minHeight="60dp"
+                android:minWidth="60dp" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/btn_red"
                 android:layout_weight="1"
-                android:text="00"
-                android:onClick="onClickBtn" />
+                android:text="Red"
+                android:onClick="onClickBtn"
+                android:background="#ffff0519"
+                android:minHeight="60dp"
+                android:minWidth="60dp" />
 
         </TableRow>
 
