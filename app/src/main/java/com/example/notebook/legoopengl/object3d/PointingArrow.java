@@ -85,7 +85,7 @@ public class PointingArrow {
         indexbuf.put(index);
         indexbuf.position(0);
 
-        rotationSpeed = 0.5f;
+        rotationSpeed = 0.8f;
         position = new Vector3(0, 0, 0);
         velocity = new Vector3();
     }
@@ -95,7 +95,8 @@ public class PointingArrow {
         Vector3.add(position, velocity);
 
         gl.glTranslatef(position.x, position.y, position.z);
-        gl.glRotatef(currentRot += rotationSpeed, 0, 1, 0);
+        currentRot = (currentRot + rotationSpeed) % 360;
+        gl.glRotatef(currentRot, 0, 1, 0);
 
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertbuf);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorbuf);

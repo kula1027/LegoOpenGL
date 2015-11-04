@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
                 gamePlayView.renderer.toggleTrans();
                 gamePlayView.arrows_toggle();
                 break;
-            case R.id.restore:
+            case R.id.remove:
                 gamePlayView.renderer.removeCube();
                 break;
 
@@ -50,18 +50,29 @@ public class MainActivity extends Activity {
                 gamePlayView.renderer.setCubeColor(2);
                 popUpSetColor.hide();
                 break;
-
-            case R.id.arrow_ld:
-                Log.d("arrow", "Left Down");
+            case R.id.btn_green:
+                gamePlayView.renderer.setCubeColor(3);
+                popUpSetColor.hide();
                 break;
-            case R.id.arrow_rd:
-                Log.d("arrow", "Right Down" );
+            case R.id.btn_yellow:
+                gamePlayView.renderer.setCubeColor(4);
+                popUpSetColor.hide();
                 break;
-            case R.id.arrow_lu:
-                Log.d("arrow", "Left Up" );
+            case R.id.btn_orange:
+                gamePlayView.renderer.setCubeColor(5);
+                popUpSetColor.hide();
                 break;
-            case R.id.arrow_ru:
-                Log.d("arrow", "Right Up" );
+            case R.id.btn_black:
+                gamePlayView.renderer.setCubeColor(6);
+                popUpSetColor.hide();
+                break;
+            case R.id.btn_white:
+                gamePlayView.renderer.setCubeColor(7);
+                popUpSetColor.hide();
+                break;
+            case R.id.btn_purple:
+                gamePlayView.renderer.setCubeColor(8);
+                popUpSetColor.hide();
                 break;
         }
     }

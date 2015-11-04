@@ -33,17 +33,32 @@ public class GamePlayView extends GLSurfaceView{
 
     private float x_pre = 0;
     private float y_pre = 0;
+    private float distance_pre = 0;
     public boolean onTouchEvent(MotionEvent evt){
         float x = evt.getX();
         float y = evt.getY();
+        int touchCount = evt.getPointerCount();
 
         float diff_x = x - x_pre;
         float diff_y = y - y_pre;
 
         switch (evt.getAction()){
             case MotionEvent.ACTION_MOVE :
-                renderer.camera.Rotate(diff_x);
-                popUpArrows.syncRotation(renderer.camera.getRotation());
+                if(touchCount >= 2){
+                    float disX = Math.abs(evt.getX(0) - evt.getX(1));
+                    float disY = Math.abs(evt.getY(0) - evt.getY(1));
+                    float distance = disX * disX + disY * disY;
+                    if(distance > distance_pre){
+                        renderer.camera.moveCloser();
+                    }else{
+                        renderer.camera.moveFarther();
+                    }
+                    distance_pre = distance;
+                }else {
+                    renderer.camera.rotate(diff_x);
+                    popUpArrows.syncRotation(renderer.camera.getRotation());
+                    renderer.camera.setLookingDir(diff_y);
+                }
                 break;
         }
 

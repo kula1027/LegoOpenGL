@@ -48,8 +48,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Restore"
-            android:id="@+id/restore"
+            android:text="Remove"
+            android:id="@+id/remove"
             android:layout_weight="1"
             android:onClick="onClickBtn"
             android:singleLine="false" />

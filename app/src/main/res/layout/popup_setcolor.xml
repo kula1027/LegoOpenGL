@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffceff61"
-            android:alpha="0.8">
+            android:alpha="0.9">
 
             <Button
                 android:layout_width="wrap_content"
@@ -52,25 +52,80 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#ffceff61"
-            android:alpha="0.8" >
+            android:alpha="0.9" >
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/button68"
-                android:layout_weight="1" />
+                android:id="@+id/btn_green"
+                android:layout_weight="1"
+                android:text="Green"
+                android:minHeight="60dp"
+                android:minWidth="60dp"
+                android:onClick="onClickBtn"
+                android:background="#ff23ff21" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/button69"
-                android:layout_weight="1" />
+                android:id="@+id/btn_yellow"
+                android:layout_weight="1"
+                android:text="Yellow"
+                android:minHeight="60dp"
+                android:minWidth="60dp"
+                android:onClick="onClickBtn"
+                android:background="#fffffb4c" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/button70"
-                android:layout_weight="1" />
+                android:id="@+id/btn_orange"
+                android:layout_weight="1"
+                android:text="Orange"
+                android:minHeight="60dp"
+                android:minWidth="60dp"
+                android:onClick="onClickBtn"
+                android:background="#ffff8034" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffceff61"
+            android:alpha="0.9" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_black"
+                android:layout_weight="1"
+                android:text="Black"
+                android:minHeight="60dp"
+                android:minWidth="60dp"
+                android:onClick="onClickBtn"
+                android:background="#ff494949" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_white"
+                android:layout_weight="1"
+                android:text="White"
+                android:minHeight="60dp"
+                android:minWidth="60dp"
+                android:onClick="onClickBtn"
+                android:background="#ffffffff" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_purple"
+                android:layout_weight="1"
+                android:text="Purple"
+                android:minHeight="60dp"
+                android:minWidth="60dp"
+                android:onClick="onClickBtn"
+                android:background="#ffb933fd" />
         </TableRow>
 
     </TableLayout>

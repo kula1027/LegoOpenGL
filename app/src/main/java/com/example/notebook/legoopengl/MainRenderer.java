@@ -17,10 +17,10 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by notebook on 2015-10-31.
  */
 public class MainRenderer implements GLSurfaceView.Renderer{
-    Camera camera;
-    Stack3d stack3d = new Stack3d();
-    List<Cube> cubeList = new ArrayList<Cube>();
-    PointingArrow pa = new PointingArrow();
+    public Camera camera;
+    private Stack3d stack3d = new Stack3d();
+    private List<Cube> cubeList = new ArrayList<Cube>();
+    private PointingArrow pa = new PointingArrow();
 
     int pointingPos[] = {0, 0};
     int currentColor;
@@ -128,7 +128,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     }
 
     public void onDrawFrame(GL10 gl) {
-        gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
+        gl.glClearColor(1f, 1f, 1f, 1);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
