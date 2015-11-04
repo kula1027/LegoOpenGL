@@ -10,7 +10,7 @@ import com.example.notebook.legoopengl.PopUps.PopUpSetColor;
 
 
 public class MainActivity extends Activity {
-    GamePlayView gamePlayView;
+    static public GamePlayView gamePlayView;
     PopUpSetColor popUpSetColor;
 
     @Override
@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
         switch (v.getId()){
             case R.id.setCube:
                 gamePlayView.renderer.dropCube();
-                gamePlayView.renderer.pa.move(new Vector3(0, 1, 0));
                 break;
             case R.id.chCube:
                 popUpSetColor.toggleView();

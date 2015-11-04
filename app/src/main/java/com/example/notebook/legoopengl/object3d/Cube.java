@@ -1,5 +1,6 @@
-package com.example.notebook.legoopengl;
+package com.example.notebook.legoopengl.object3d;
 
+import com.example.notebook.legoopengl.Vector3;
 import com.example.notebook.legoopengl.statics.Config;
 import com.example.notebook.legoopengl.statics.CubeColor;
 
@@ -109,9 +110,9 @@ public class Cube {
     private FloatBuffer vertbuf;
     private FloatBuffer colorbuf;
     private ByteBuffer indexbuf;
-    Vector3 position;
-    Vector3 velocity;
-    boolean isTransCube;
+    private Vector3 position;
+    private Vector3 velocity;
+    public boolean isTransCube;
 
     public Cube(int colorIndex, Vector3 position_, boolean isTransCube_){
         for(int loop = 0; loop < vert.length; loop++) {
@@ -131,15 +132,22 @@ public class Cube {
         velocity = new Vector3(0, 0, 0);
         isTransCube = isTransCube_;
     }
+    public int[] getPosInt(){
+        int[] tempArr = new int[3];
+        tempArr[0] = Math.round(position.x);
+        tempArr[1] = Math.round(position.y);
+        tempArr[2] = Math.round(position.z);
 
-    public void drop(int targetLevel){
-        new DropRoutine(targetLevel).start();
+        return  tempArr;
+    }
+    public void drop(int targetHeight){
+        new DropRoutine(targetHeight).start();
     }
 
     class DropRoutine extends Thread{
-        float targetLevel;
-        DropRoutine(float targetLevel_){
-            targetLevel = targetLevel_;
+        float targetHeight;
+        DropRoutine(float targetHeight_){
+            targetHeight = targetHeight_;
             velocity = new Vector3(0, Config.moveSpeed_Cube, 0);
         }
 
@@ -147,7 +155,7 @@ public class Cube {
             super.run();
 
             while(true){
-                if(position.y <= targetLevel){
+                if(position.y <= targetHeight){
                     velocity = new Vector3(0, 0, 0);
                     position = new Vector3(Math.round(position.x), Math.round(position.y), Math.round(position.z));
                     break;

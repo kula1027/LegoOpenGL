@@ -2,10 +2,10 @@ package com.example.notebook.legoopengl;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
-import android.util.Log;
 
+import com.example.notebook.legoopengl.object3d.Cube;
+import com.example.notebook.legoopengl.object3d.PointingArrow;
 import com.example.notebook.legoopengl.statics.Config;
-import com.example.notebook.legoopengl.statics.CubeColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     List<Cube> cubeList = new ArrayList<Cube>();
     PointingArrow pa = new PointingArrow();
 
-    Vector3 pointingPos = new Vector3(0, 1, 0);
+    int pointingPos[] = {0, 0};
     int currentColor;
     boolean displayTrans;
 
@@ -37,13 +37,6 @@ public class MainRenderer implements GLSurfaceView.Renderer{
 
     public void toggleTrans(){
         displayTrans = !displayTrans;
-    }
-
-    public void removeCube(){
-        if(cubeList.size() > 0){
-            cubeList.remove(cubeList.size() - 1);
-            stack3d.remove();
-        }
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -67,17 +60,75 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     }
 
     public void dropCube(){
-        int tempLevel = stack3d.depthTest(0, 0);
-        if(tempLevel == -1)return;
+        int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
+        if(height == -1)return;
+
         Cube tempCube;
-        if(currentColor == 0){tempCube = new Cube(currentColor, new Vector3(0, 20, 0), true);}
-        else{tempCube = new Cube(currentColor, new Vector3(0, Config.dropYpos, 0), false);}
+        if(currentColor == 0){tempCube = new Cube(currentColor, new Vector3(pointingPos[0], Config.dropYpos, pointingPos[1]), true);}//투명 큐브
+        else{tempCube = new Cube(currentColor, new Vector3(pointingPos[0], Config.dropYpos, pointingPos[1]), false);}//유색 큐브
         cubeList.add(tempCube);
-        tempCube.drop(tempLevel);
+        tempCube.drop(height);
+
+        stack3d.increaseHeight(pointingPos[0], pointingPos[1]);height++;
+        pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+    }
+
+    public void removeCube(){
+        if(cubeList.size() > 0){
+            removeCubeInList();
+            stack3d.remove(pointingPos[0], pointingPos[1]);
+        }
+    }
+
+    private void removeCubeInList(){
+        int[] tempArr;
+        for(int loop = 0; loop < cubeList.size(); loop++){
+            tempArr = cubeList.get(loop).getPosInt();
+            if(tempArr[0] == pointingPos[0] &&
+                    tempArr[1] == stack3d.getHeight(pointingPos[0], pointingPos[1]) - 1&&
+                    tempArr[2] == pointingPos[1]){
+                cubeList.remove(loop);
+                pa.moveTo(new Vector3(pointingPos[0], tempArr[1], pointingPos[1]));
+                break;
+            }
+        }
+    }
+
+    public void moveArrow(int direction){
+        switch (direction){
+            case 0://lu
+                if(pointingPos[0] > -Config.size[0] / 2) {
+                    pointingPos[0]--;
+                    int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
+                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                }
+                break;
+            case 1://
+                if(pointingPos[1] > -Config.size[2] / 2) {
+                    pointingPos[1]--;
+                    int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
+                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                }
+                break;
+            case 2://rd
+                if(pointingPos[0] < Config.size[0] / 2) {
+                    pointingPos[0]++;
+                    int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
+                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                }
+                break;
+            case 3://ld
+                if (pointingPos[1] < Config.size[2] / 2){
+                    pointingPos[1]++;
+                    int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
+                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                }
+                break;
+        }
     }
 
     public void onDrawFrame(GL10 gl) {
-        gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        gl.glClearColor(0.8f, 0.8f, 0.8f, 1);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -85,7 +136,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         gl.glLoadIdentity();
         camera.setCamera(gl);
 
-        pa.draw(gl);
+        if(displayTrans)pa.draw(gl);
         for(int loop = 0; loop < cubeList.size(); loop++){
             if(displayTrans) {
                 cubeList.get(loop).draw(gl);

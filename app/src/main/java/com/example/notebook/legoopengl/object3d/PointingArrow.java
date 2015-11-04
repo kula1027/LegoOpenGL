@@ -1,4 +1,6 @@
-package com.example.notebook.legoopengl;
+package com.example.notebook.legoopengl.object3d;
+
+import com.example.notebook.legoopengl.Vector3;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -72,7 +74,7 @@ public class PointingArrow {
 
     private float rotationSpeed;
     private float currentRot;
-    public Vector3 position;
+    private Vector3 position;
     private Vector3 velocity;
 
     public PointingArrow(){
@@ -110,7 +112,7 @@ public class PointingArrow {
         buf.position(0);
         return buf;
     }
-    public void move(Vector3 vec3){
-        Vector3.add(position, vec3);
+    public void moveTo(Vector3 vec3){
+        Vector3.copy(position, vec3);
     }
 }

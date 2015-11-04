@@ -5,16 +5,15 @@ import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.widget.Button;
 
-import com.example.notebook.legoopengl.PopUps.PopUpArrows;
+import com.example.notebook.legoopengl.PopUps.PopUpArrowController;
 
 /**
  * Created by notebook on 2015-10-31.
  */
 public class GamePlayView extends GLSurfaceView{
-    MainRenderer renderer;
-    PopUpArrows popUpArrows;
+    public MainRenderer renderer;
+    private PopUpArrowController popUpArrows;
 
     public GamePlayView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -23,7 +22,7 @@ public class GamePlayView extends GLSurfaceView{
         setRenderer(renderer);
     }
     public void init(LayoutInflater LI){
-        popUpArrows = new PopUpArrows(LI);
+        popUpArrows = new PopUpArrowController(LI);
     }
     public void arrows_hide(){
         popUpArrows.hide();
