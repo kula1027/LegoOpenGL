@@ -14,8 +14,8 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by notebook on 2015-10-31.
  */
-public class Cube {
-    float vert[] = {//face 0 ~ 5
+public class Obj3d_Cube {
+    private float vert[] = {//face 0 ~ 5
             0.05f, 0.05f, 0, //face 0
             0.05f, 0.95f, 0,
             0.95f, 0.05f, 0,
@@ -47,7 +47,7 @@ public class Cube {
             0.95f, 1, 0.95f
     };
 
-    byte index[] = {
+    private byte index[] = {
             //////////////////6 faces////////////////////////////
             0, 1, 2,
             1, 3, 2,
@@ -115,7 +115,7 @@ public class Cube {
     private Vector3 velocity;
     public boolean isTransCube;
 
-    public Cube(int colorIndex, Vector3 position_, boolean isTransCube_){
+    public Obj3d_Cube(int colorIndex, Vector3 position_, boolean isTransCube_){
         for(int loop = 0; loop < vert.length; loop++) {
             vert[loop] -= 0.5f;
         }
@@ -147,20 +147,20 @@ public class Cube {
 
     class DropRoutine extends Thread{
         float targetHeight;
-        DropRoutine(float targetHeight_){
+        DropRoutine(int targetHeight_){
             targetHeight = targetHeight_;
-            velocity = new Vector3(0, Config.moveSpeed_Cube, 0);
+            velocity = new Vector3(0, Config.dropSpeed_Cube, 0);
         }
 
         public void run(){
             super.run();
 
-            MainRenderer.countingSemaphore++;
+            MainRenderer.cubeDrop_countingSemaphore++;
             while(true){
                 if(position.y <= targetHeight){
                     velocity = new Vector3(0, 0, 0);
                     position = new Vector3(Math.round(position.x), Math.round(position.y), Math.round(position.z));
-                    MainRenderer.countingSemaphore--;
+                    MainRenderer.cubeDrop_countingSemaphore--;
                     break;
                 }
                 try { Thread.sleep(1);
@@ -177,7 +177,6 @@ public class Cube {
 
         Vector3.add(position, velocity);
         gl.glTranslatef(position.x, position.y, position.z);
-
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertbuf);
         gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorbuf);
         gl.glDrawElements(GL10.GL_TRIANGLES, index.length,

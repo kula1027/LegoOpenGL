@@ -25,7 +25,7 @@ public class PopUpArrowController {
     private int arrowRadius = 70;
     private int circleCenter[] = {210, 210};
     private int circleRadius = (int)(75f * 1.414f);
-    private int arrowPos[][] = new int[4][2];//lu부터 시계방향 오름차순
+    private int arrowPos[][] = new int[4][2];//start from lu, clockwise
     private LinearLayout ll_main;
 
     public PopUpArrowController(LayoutInflater LI){

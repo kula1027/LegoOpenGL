@@ -1,6 +1,7 @@
 package com.example.notebook.legoopengl.object3d;
 
 import com.example.notebook.legoopengl.Vector3;
+import com.example.notebook.legoopengl.statics.Config;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,14 +12,14 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by notebook on 2015-11-03.
  */
-public class PointingArrow {
-    float vert[] = {
+public class Obj3d_PointingArrow{
+    private float vert[] = {
             0, 0, 0,
             -0.6f, 1f, 0.6f,
             0.6f, 1f, 0.6f,
             0.6f, 1f, -0.6f,
             -0.6f, 1f, -0.6f,
-            -0.6f, 1f, 0.6f,//»ç°¢»Ô vertex 5
+            -0.6f, 1f, 0.6f,//ï¿½ç°¢ï¿½ï¿½ vertex 5
 
             -0.2f, 1f, 0.2f,
             -0.2f, 2f, 0.2f,//7
@@ -29,14 +30,14 @@ public class PointingArrow {
             -0.2f, 1f, -0.2f,
             -0.2f, 2f, -0.2f,//13
     };
-    byte index[] = {
-            3, 4, 5,//»ç°¢»Ô ¹Ø¸é
+    private byte index[] = {
+            3, 4, 5,//ï¿½ç°¢ï¿½ï¿½ ï¿½Ø¸ï¿½
             2, 3, 5,
 
             0, 2, 1,
             0, 2, 3,
             0, 4, 3,
-            1, 4, 0,//»ç°¢»Ô »çÀÌµå ´Ü¸é
+            1, 4, 0,//ï¿½ç°¢ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ü¸ï¿½
 
 
             6, 7, 8,
@@ -46,12 +47,12 @@ public class PointingArrow {
             10, 11, 12,
             11, 12, 13,
             12, 7, 13,
-            12, 7, 6, //Á÷À¯¸éÃ¼ »çÀÌµå
+            12, 7, 6, //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½Ìµï¿½
 
             11, 9, 7,
-            11, 13, 7,//Á÷À°¸éÃ¼ À§
+            11, 13, 7,//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½
     };
-    float color[] = {
+    private float color[] = {
             0.2f, 0.2f, 0.6f, 1,
             0.2f, 0.2f, 0.6f, 1,
             0.5f, 0.5f, 0.5f, 1,
@@ -77,7 +78,7 @@ public class PointingArrow {
     private Vector3 position;
     private Vector3 velocity;
 
-    public PointingArrow(){
+    public Obj3d_PointingArrow(){
         vertbuf = arrayToBuffer(vert);
         colorbuf = arrayToBuffer(color);
 
@@ -85,14 +86,20 @@ public class PointingArrow {
         indexbuf.put(index);
         indexbuf.position(0);
 
+
         rotationSpeed = 0.8f;
+
         position = new Vector3(0, 0, 0);
         velocity = new Vector3();
     }
+
+    private double upDownShake = 0;
     public void draw(GL10 gl){
         gl.glPushMatrix();
 
+        upDownShake += Config.arrowShakeSpeed;
         Vector3.add(position, velocity);
+        Vector3.add(position, new Vector3(0, (float)Math.sin(upDownShake) * 0.01f, 0));
 
         gl.glTranslatef(position.x, position.y, position.z);
         currentRot = (currentRot + rotationSpeed) % 360;
@@ -105,7 +112,8 @@ public class PointingArrow {
 
         gl.glPopMatrix();
     }
-    public FloatBuffer arrayToBuffer(float[] ar){
+
+    private FloatBuffer arrayToBuffer(float[] ar){
         ByteBuffer bytebuf = ByteBuffer.allocateDirect(ar.length * 4);
         bytebuf.order(ByteOrder.nativeOrder());
         FloatBuffer buf = bytebuf.asFloatBuffer();
@@ -113,6 +121,7 @@ public class PointingArrow {
         buf.position(0);
         return buf;
     }
+
     public void moveTo(Vector3 vec3){
         Vector3.copy(position, vec3);
     }

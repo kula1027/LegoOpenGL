@@ -13,14 +13,11 @@ public class Camera {
     private Vector3 position;
     private Vector3 rotation;
     private Vector3 lookingDir;
-    private boolean isRotating;
     private float distance;
-    private int direction;
 
     Camera( Vector3 lookingDir_) {
         rotation = new Vector3(45f, 45f, 45f);
         lookingDir = lookingDir_;
-        isRotating = false;
 
         distance = Config.cameraDistance_start;
 

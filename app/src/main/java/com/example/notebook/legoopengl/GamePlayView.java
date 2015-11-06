@@ -57,10 +57,10 @@ public class GamePlayView extends GLSurfaceView{
                     distance_pre = distance;
                 }else {
                     float gradient = diff_y / diff_x;
-                    if(Math.abs(gradient) < 1){//ÁÂ¿ì
+                    if(Math.abs(gradient) < 1){//input horizontal
                         renderer.camera.rotate(diff_x);
                         popUpArrows.syncRotation(renderer.camera.getRotation());
-                    }else{//»óÇÏ
+                    }else{//input vertical
                         renderer.camera.setLookingDir(diff_y);
                     }
                 }

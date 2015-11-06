@@ -2,7 +2,6 @@ package com.example.notebook.legoopengl;
 
 import com.example.notebook.legoopengl.statics.Config;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Stack;
 public class Stack3d {
     private int heightMap[][] = new int[Config.size[0]][Config.size[2]];
 
-    public int getHeight(int x_, int z_){//ÇØ´ç xyÁÂÇ¥ÀÇ ³ôÀÌ ¸®ÅÏ
+    public int getHeight(int x_, int z_){//ï¿½Ø´ï¿½ xyï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         x_ += Config.size[0] / 2;
         z_ += Config.size[2] / 2;
         return heightMap[x_][z_];
