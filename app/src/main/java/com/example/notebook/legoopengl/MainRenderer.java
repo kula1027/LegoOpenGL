@@ -2,6 +2,7 @@ package com.example.notebook.legoopengl;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.util.Log;
 
 import com.example.notebook.legoopengl.object3d.Cube;
 import com.example.notebook.legoopengl.object3d.PointingArrow;
@@ -18,6 +19,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class MainRenderer implements GLSurfaceView.Renderer{
     public Camera camera;
+    public static int countingSemaphore = 0;
     private Stack3d stack3d = new Stack3d();
     private List<Cube> cubeList = new ArrayList<Cube>();
     private PointingArrow pa = new PointingArrow();
@@ -61,7 +63,9 @@ public class MainRenderer implements GLSurfaceView.Renderer{
 
     public void dropCube(){
         int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
-        if(height == -1)return;
+        if(height >= Config.size[1]){//해당 좌표 최대높이
+            return;
+        }
 
         Cube tempCube;
         if(currentColor == 0){tempCube = new Cube(currentColor, new Vector3(pointingPos[0], Config.dropYpos, pointingPos[1]), true);}//투명 큐브
@@ -74,9 +78,9 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     }
 
     public void removeCube(){
-        if(cubeList.size() > 0){
+        if(stack3d.getHeight(pointingPos[0], pointingPos[1]) > 0 && countingSemaphore == 0){
             removeCubeInList();
-            stack3d.remove(pointingPos[0], pointingPos[1]);
+            stack3d.decreaseHeight(pointingPos[0], pointingPos[1]);
         }
     }
 
@@ -136,12 +140,15 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         gl.glLoadIdentity();
         camera.setCamera(gl);
 
-        if(displayTrans)pa.draw(gl);
         for(int loop = 0; loop < cubeList.size(); loop++){
-            if(displayTrans) {
-                cubeList.get(loop).draw(gl);
-            }else{
-                if(cubeList.get(loop).isTransCube == false){
+            if(cubeList.get(loop).isTransCube == false){
+                    cubeList.get(loop).draw(gl);
+            }
+        }
+        if(displayTrans){
+            pa.draw(gl);
+            for(int loop = 0; loop < cubeList.size(); loop++){
+                if(cubeList.get(loop).isTransCube == true){
                     cubeList.get(loop).draw(gl);
                 }
             }

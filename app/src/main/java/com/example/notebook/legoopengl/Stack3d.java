@@ -14,10 +14,7 @@ public class Stack3d {
     public int getHeight(int x_, int z_){//해당 xy좌표의 높이 리턴
         x_ += Config.size[0] / 2;
         z_ += Config.size[2] / 2;
-        if(heightMap[x_][z_] == Config.size[1])return -1;//해당 배열이 꽉참
-        else{
-            return heightMap[x_][z_];
-        }
+        return heightMap[x_][z_];
     }
     public void increaseHeight(int x_, int z_){
         x_ += Config.size[0] / 2;
@@ -26,9 +23,9 @@ public class Stack3d {
         heightMap[x_][z_]++;
     }
 
-    public void remove(int x_, int z_){
+    public void decreaseHeight(int x_, int z_){
         x_ += Config.size[0] / 2;
         z_ += Config.size[2] / 2;
-        if(heightMap[x_][z_] > 0)heightMap[x_][z_]--;
+        heightMap[x_][z_]--;
     }
 }

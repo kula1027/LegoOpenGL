@@ -3,6 +3,7 @@ package com.example.notebook.legoopengl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 
@@ -55,9 +56,13 @@ public class GamePlayView extends GLSurfaceView{
                     }
                     distance_pre = distance;
                 }else {
-                    renderer.camera.rotate(diff_x);
-                    popUpArrows.syncRotation(renderer.camera.getRotation());
-                    renderer.camera.setLookingDir(diff_y);
+                    float gradient = diff_y / diff_x;
+                    if(Math.abs(gradient) < 1){//ÁÂ¿ì
+                        renderer.camera.rotate(diff_x);
+                        popUpArrows.syncRotation(renderer.camera.getRotation());
+                    }else{//»óÇÏ
+                        renderer.camera.setLookingDir(diff_y);
+                    }
                 }
                 break;
         }

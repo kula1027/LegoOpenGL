@@ -1,5 +1,6 @@
 package com.example.notebook.legoopengl.object3d;
 
+import com.example.notebook.legoopengl.MainRenderer;
 import com.example.notebook.legoopengl.Vector3;
 import com.example.notebook.legoopengl.statics.Config;
 import com.example.notebook.legoopengl.statics.CubeColor;
@@ -154,10 +155,12 @@ public class Cube {
         public void run(){
             super.run();
 
+            MainRenderer.countingSemaphore++;
             while(true){
                 if(position.y <= targetHeight){
                     velocity = new Vector3(0, 0, 0);
                     position = new Vector3(Math.round(position.x), Math.round(position.y), Math.round(position.z));
+                    MainRenderer.countingSemaphore--;
                     break;
                 }
                 try { Thread.sleep(1);
