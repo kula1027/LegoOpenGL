@@ -5,6 +5,7 @@ import com.example.notebook.legoopengl.Vector3;
 import com.example.notebook.legoopengl.statics.Config;
 import com.example.notebook.legoopengl.statics.CubeColor;
 
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -14,7 +15,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by notebook on 2015-10-31.
  */
-public class Obj3d_Cube {
+public class Obj3d_Cube implements Serializable{
     private float vert[] = {//face 0 ~ 5
             0.05f, 0.05f, 0, //face 0
             0.05f, 0.95f, 0,
@@ -142,7 +143,9 @@ public class Obj3d_Cube {
         return  tempArr;
     }
     public void drop(int targetHeight){
-        new DropRoutine(targetHeight).start();
+        DropRoutine dropRoutine = new DropRoutine(targetHeight);
+        dropRoutine.setDaemon(true);
+        dropRoutine.start();
     }
 
     class DropRoutine extends Thread{

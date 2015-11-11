@@ -8,18 +8,27 @@ import android.view.View;
 import com.example.notebook.legoopengl.PopUps.PopUpSetColor;
 
 
-
 public class MainActivity extends Activity {
     static public GamePlayView gamePlayView;
-    PopUpSetColor popUpSetColor;
+    private PopUpSetColor popUpSetColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         popUpSetColor = new PopUpSetColor(getLayoutInflater());
         gamePlayView = (GamePlayView)findViewById(R.id.view);
         gamePlayView.init(getLayoutInflater());
+
+        if(savedInstanceState != null){
+            gamePlayView.restoreState(savedInstanceState);
+        }
+    }
+
+    protected  void onSaveInstanceState(Bundle saveState){
+        super.onSaveInstanceState(saveState);
+        gamePlayView.saveState(saveState);
     }
 
     public void onClickBtn(View v){

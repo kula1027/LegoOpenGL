@@ -3,6 +3,7 @@ package com.example.notebook.legoopengl.object3d;
 import com.example.notebook.legoopengl.Vector3;
 import com.example.notebook.legoopengl.statics.Config;
 
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -12,7 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by notebook on 2015-11-03.
  */
-public class Obj3d_PointingArrow{
+public class Obj3d_PointingArrow implements Serializable{
     private float vert[] = {
             0, 0, 0,
             -0.6f, 1f, 0.6f,

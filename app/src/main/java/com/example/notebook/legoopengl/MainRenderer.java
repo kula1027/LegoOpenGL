@@ -2,6 +2,7 @@ package com.example.notebook.legoopengl;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.example.notebook.legoopengl.object3d.Obj3d_BottomMark;
@@ -11,6 +12,7 @@ import com.example.notebook.legoopengl.statics.Config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -21,7 +23,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class MainRenderer implements GLSurfaceView.Renderer{
     public Camera camera;
     private Stack3d stack3d;
-    private List<Obj3d_Cube> obj3dCubeList;
+    private ArrayList<Obj3d_Cube> obj3dCubeList;
     private Obj3d_PointingArrow pa;
     private Obj3d_BottomMark[][] bottomMarks;
 
@@ -47,6 +49,27 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         pointingPos[1] = 0;
         currentColor = 0;
         displayTrans = true;
+    }
+
+    public void saveState(Bundle saveState) {
+        saveState.putSerializable("camera", camera);
+        saveState.putSerializable("stack", stack3d);
+        saveState.putSerializable("cubelist", obj3dCubeList);
+        saveState.putSerializable("pa", pa);
+        saveState.putInt("pointing", pointingPos[0]);
+        saveState.putInt("pointing2", pointingPos[1]);
+        saveState.putInt("color", currentColor);
+        saveState.putBoolean("dTrans", displayTrans);
+    }
+    public void restoreState(Bundle saveState){
+        camera = (Camera)saveState.getSerializable("camera");
+        stack3d = (Stack3d)saveState.getSerializable("stack");
+        obj3dCubeList = (ArrayList<Obj3d_Cube>)saveState.getSerializable("cubelist");
+        pa = (Obj3d_PointingArrow)saveState.getSerializable("pa");
+        pointingPos[0] = saveState.getInt("pointing");
+        pointingPos[1] = saveState.getInt("pointing2");
+        currentColor = saveState.getInt("color");
+        displayTrans = saveState.getBoolean("dTrans");
     }
 
     public void setCubeColor(int idx){

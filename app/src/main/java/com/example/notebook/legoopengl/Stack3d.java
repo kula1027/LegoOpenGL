@@ -2,12 +2,13 @@ package com.example.notebook.legoopengl;
 
 import com.example.notebook.legoopengl.statics.Config;
 
+import java.io.Serializable;
 import java.util.Stack;
 
 /**
  * Created by notebook on 2015-10-31.
  */
-public class Stack3d {
+public class Stack3d implements Serializable{
     private int heightMap[][] = new int[Config.size[0]][Config.size[2]];
 
     public int getHeight(int x_, int z_){//�ش� xy��ǥ�� ���� ����

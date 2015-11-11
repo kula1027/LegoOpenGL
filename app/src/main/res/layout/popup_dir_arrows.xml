@@ -16,7 +16,8 @@
             android:layout_width="150px"
             android:layout_height="150px"
             android:id="@+id/arrow_lu"
-            android:src="@drawable/arrow_lu" />
+            android:src="@drawable/arrow_lu"
+            android:contentDescription="lu" />
 
         <ImageView
             android:layout_width="150px"

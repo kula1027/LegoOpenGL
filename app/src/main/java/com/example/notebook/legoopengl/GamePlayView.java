@@ -2,6 +2,7 @@ package com.example.notebook.legoopengl;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,13 @@ public class GamePlayView extends GLSurfaceView{
         setFocusable(true);
         renderer = new MainRenderer();
         setRenderer(renderer);
+    }
+    public void saveState(Bundle saveState){
+        renderer.saveState(saveState);
+    }
+    public void restoreState(Bundle saveState){
+        renderer.restoreState(saveState);
+        popUpArrows.syncRotation(renderer.camera.getRotation());
     }
     public void init(LayoutInflater LI){
         popUpArrows = new PopUpArrowController(LI);

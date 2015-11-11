@@ -4,12 +4,14 @@ import android.opengl.GLU;
 
 import com.example.notebook.legoopengl.statics.Config;
 
+import java.io.Serializable;
+
 import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Created by notebook on 2015-10-31.
  */
-public class Camera {
+public class Camera implements Serializable {
     private Vector3 position;
     private Vector3 rotation;
     private Vector3 lookingDir;

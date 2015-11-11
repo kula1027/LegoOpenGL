@@ -15,11 +15,13 @@ import android.widget.RelativeLayout;
 import com.example.notebook.legoopengl.MainActivity;
 import com.example.notebook.legoopengl.R;
 
+import java.io.Serializable;
+
 
 /**
  * Created by notebook on 2015-11-01.
  */
-public class PopUpArrowController {
+public class PopUpArrowController{
     private View popUpView;
     private PopupWindow popupWindow;
     private int arrowRadius = 70;
