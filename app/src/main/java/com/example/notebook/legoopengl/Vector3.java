@@ -1,9 +1,11 @@
 package com.example.notebook.legoopengl;
 
+import java.io.Serializable;
+
 /**
  * Created by notebook on 2015-10-31.
  */
-public class Vector3 {
+public class Vector3 implements Serializable{
     public float x;
     public float y;
     public float z;

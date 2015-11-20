@@ -1,11 +1,17 @@
 package com.example.notebook.legoopengl;
 
 import android.app.Activity;
+import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 
-import com.example.notebook.legoopengl.PopUps.PopUpSetColor;
+import com.example.notebook.legoopengl.statics.Config;
 
 
 public class MainActivity extends Activity {
@@ -16,14 +22,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setDPI();
 
         popUpSetColor = new PopUpSetColor(getLayoutInflater());
         gamePlayView = (GamePlayView)findViewById(R.id.view);
-        gamePlayView.init(getLayoutInflater());
+        gamePlayView.init(this);
 
         if(savedInstanceState != null){
             gamePlayView.restoreState(savedInstanceState);
         }
+    }
+    private void setDPI(){
+        Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        Config.DPI = metrics.densityDpi;
     }
 
     protected  void onSaveInstanceState(Bundle saveState){
@@ -79,7 +92,7 @@ public class MainActivity extends Activity {
                 gamePlayView.renderer.setCubeColor(7);
                 popUpSetColor.hide();
                 break;
-            case R.id.btn_purple:
+            case R.id.btn_brown:
                 gamePlayView.renderer.setCubeColor(8);
                 popUpSetColor.hide();
                 break;

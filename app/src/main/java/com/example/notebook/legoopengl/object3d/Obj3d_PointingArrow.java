@@ -13,7 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by notebook on 2015-11-03.
  */
-public class Obj3d_PointingArrow implements Serializable{
+public class Obj3d_PointingArrow{
     private float vert[] = {
             0, 0, 0,
             -0.6f, 1f, 0.6f,
@@ -123,6 +123,12 @@ public class Obj3d_PointingArrow implements Serializable{
         return buf;
     }
 
+    public Vector3 getPosition(){
+        return position;
+    }
+    public void setPosition(Vector3 position_){
+        Vector3.copy(position, position_);
+    }
     public void moveTo(Vector3 vec3){
         Vector3.copy(position, vec3);
     }

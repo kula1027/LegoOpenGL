@@ -1,41 +1,39 @@
 package com.example.notebook.legoopengl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-
-import com.example.notebook.legoopengl.PopUps.PopUpArrowController;
+import android.widget.LinearLayout;
 
 /**
  * Created by notebook on 2015-10-31.
  */
 public class GamePlayView extends GLSurfaceView{
     public MainRenderer renderer;
-    private PopUpArrowController popUpArrows;
+    private ArrowController popUpArrows;
 
     public GamePlayView(Context context, AttributeSet attrs){
         super(context, attrs);
         setFocusable(true);
         renderer = new MainRenderer();
+
         setRenderer(renderer);
     }
-    public void saveState(Bundle saveState){
+    public void saveState(Bundle saveState) {
         renderer.saveState(saveState);
     }
     public void restoreState(Bundle saveState){
         renderer.restoreState(saveState);
-        popUpArrows.syncRotation(renderer.camera.getRotation());
+        //popUpArrows.syncRotation(renderer.camera.getRotation());
     }
-    public void init(LayoutInflater LI){
-        popUpArrows = new PopUpArrowController(LI);
+
+    public void init(Activity act){
+        popUpArrows = new ArrowController((LinearLayout)act.findViewById(R.id.ll_arrows));
     }
-    public void arrows_hide(){
-        popUpArrows.hide();
-    }
+
     public void arrows_toggle(){
         popUpArrows.toggleView();
     }

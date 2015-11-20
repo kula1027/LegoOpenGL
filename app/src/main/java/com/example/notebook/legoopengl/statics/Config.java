@@ -17,4 +17,5 @@ public class Config {
     public static float lookLimit_min = 2;
 
     public static double arrowShakeSpeed = 0.05;
+    public static int DPI;//will be set in onCreate();
 }

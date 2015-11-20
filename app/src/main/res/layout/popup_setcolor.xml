@@ -119,13 +119,13 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/btn_purple"
+                android:id="@+id/btn_brown"
                 android:layout_weight="1"
-                android:text="Purple"
+                android:text="Brown"
                 android:minHeight="60dp"
                 android:minWidth="60dp"
                 android:onClick="onClickBtn"
-                android:background="#ffb933fd" />
+                android:background="#853a2d" />
         </TableRow>
 
     </TableLayout>

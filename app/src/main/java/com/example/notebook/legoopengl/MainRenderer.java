@@ -3,7 +3,6 @@ package com.example.notebook.legoopengl;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.notebook.legoopengl.object3d.Obj3d_BottomMark;
 import com.example.notebook.legoopengl.object3d.Obj3d_Cube;
@@ -11,8 +10,6 @@ import com.example.notebook.legoopengl.object3d.Obj3d_PointingArrow;
 import com.example.notebook.legoopengl.statics.Config;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -24,7 +21,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     public Camera camera;
     private Stack3d stack3d;
     private ArrayList<Obj3d_Cube> obj3dCubeList;
-    private Obj3d_PointingArrow pa;
+    private Obj3d_PointingArrow pointingArrow;
     private Obj3d_BottomMark[][] bottomMarks;
 
     private int pointingPos[];
@@ -36,7 +33,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         camera = new Camera(new Vector3(0f, 5f, 0f));
         stack3d = new Stack3d();
         obj3dCubeList = new ArrayList<Obj3d_Cube>();
-        pa = new Obj3d_PointingArrow();
+        pointingArrow = new Obj3d_PointingArrow();
         bottomMarks = new Obj3d_BottomMark[Config.size[0]][Config.size[2]];
         for(int loop = 0; loop < Config.size[0]; loop++){
             for(int loop2 = 0; loop2 < Config.size[2]; loop2++) {
@@ -51,11 +48,11 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         displayTrans = true;
     }
 
+    ////////////////////restore & save/////////////////////////////////////////////////////
     public void saveState(Bundle saveState) {
         saveState.putSerializable("camera", camera);
         saveState.putSerializable("stack", stack3d);
-        saveState.putSerializable("cubelist", obj3dCubeList);
-        saveState.putSerializable("pa", pa);
+        saveState.putSerializable("pointingArrowPos", pointingArrow.getPosition());
         saveState.putInt("pointing", pointingPos[0]);
         saveState.putInt("pointing2", pointingPos[1]);
         saveState.putInt("color", currentColor);
@@ -64,13 +61,33 @@ public class MainRenderer implements GLSurfaceView.Renderer{
     public void restoreState(Bundle saveState){
         camera = (Camera)saveState.getSerializable("camera");
         stack3d = (Stack3d)saveState.getSerializable("stack");
-        obj3dCubeList = (ArrayList<Obj3d_Cube>)saveState.getSerializable("cubelist");
-        pa = (Obj3d_PointingArrow)saveState.getSerializable("pa");
+        restoreCubeList();
+        pointingArrow.setPosition((Vector3) saveState.getSerializable("pointingArrowPos"));
         pointingPos[0] = saveState.getInt("pointing");
         pointingPos[1] = saveState.getInt("pointing2");
         currentColor = saveState.getInt("color");
         displayTrans = saveState.getBoolean("dTrans");
     }
+    private void restoreCubeList(){
+        for(int loop = 0; loop < Config.size[0]; loop++){
+            for(int loop2 = 0; loop2 < Config.size[1]; loop2++){
+                for(int loop3 = 0; loop3 < Config.size[2]; loop3++){
+                    int cubeColor = stack3d.cubeMap[loop][loop2][loop3];
+                    if(cubeColor == -1)continue;//아무것도 없음
+
+                    Obj3d_Cube tempObj3dCube = null;
+                    if(cubeColor == 0){
+                        tempObj3dCube = new Obj3d_Cube(cubeColor, new Vector3(loop - Config.size[0] / 2, loop2, loop3 - Config.size[2] / 2), true);
+                    }
+                    if(cubeColor > 0){
+                        tempObj3dCube = new Obj3d_Cube(cubeColor, new Vector3(loop - Config.size[0] / 2, loop2, loop3 - Config.size[2] / 2), false);
+                    }
+                    obj3dCubeList.add(tempObj3dCube);
+                }
+            }
+        }
+    }
+    ////////////////////restore & save/////////////////////////////////////////////////////
 
     public void setCubeColor(int idx){
         currentColor = idx;
@@ -113,18 +130,19 @@ public class MainRenderer implements GLSurfaceView.Renderer{
             tempObj3dCube = new Obj3d_Cube(currentColor, new Vector3(pointingPos[0], Config.dropYpos, pointingPos[1]), false);}//���� ť��
         obj3dCubeList.add(tempObj3dCube);
         tempObj3dCube.drop(height);
+        stack3d.pushCube(pointingPos[0], height, pointingPos[1], currentColor);
 
         stack3d.increaseHeight(pointingPos[0], pointingPos[1]);height++;
-        pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
-        Log.d("cubeCount", obj3dCubeList.size() + "");
+        pointingArrow.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+
     }
 
     public void removeCube(){
         if(stack3d.getHeight(pointingPos[0], pointingPos[1]) > 0 && cubeDrop_countingSemaphore == 0){
             removeCubeInList();
             stack3d.decreaseHeight(pointingPos[0], pointingPos[1]);
+            stack3d.popCube(pointingPos[0], stack3d.getHeight(pointingPos[0], pointingPos[1]), pointingPos[1]);
         }
-        Log.d("cubeCount", obj3dCubeList.size() + "");
     }
 
     private void removeCubeInList(){
@@ -135,7 +153,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
                     tempArr[1] == stack3d.getHeight(pointingPos[0], pointingPos[1]) - 1&&
                     tempArr[2] == pointingPos[1]){
                 obj3dCubeList.remove(loop);
-                pa.moveTo(new Vector3(pointingPos[0], tempArr[1], pointingPos[1]));
+                pointingArrow.moveTo(new Vector3(pointingPos[0], tempArr[1], pointingPos[1]));
                 break;
             }
         }
@@ -147,28 +165,28 @@ public class MainRenderer implements GLSurfaceView.Renderer{
                 if(pointingPos[0] > -Config.size[0] / 2) {
                     pointingPos[0]--;
                     int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
-                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                    pointingArrow.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
                 }
                 break;
             case 1://
                 if(pointingPos[1] > -Config.size[2] / 2) {
                     pointingPos[1]--;
                     int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
-                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                    pointingArrow.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
                 }
                 break;
             case 2://rd
                 if(pointingPos[0] < Config.size[0] / 2) {
                     pointingPos[0]++;
                     int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
-                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                    pointingArrow.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
                 }
                 break;
             case 3://ld
                 if (pointingPos[1] < Config.size[2] / 2){
                     pointingPos[1]++;
                     int height = stack3d.getHeight(pointingPos[0], pointingPos[1]);
-                    pa.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
+                    pointingArrow.moveTo(new Vector3(pointingPos[0], height, pointingPos[1]));
                 }
                 break;
         }
@@ -189,7 +207,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
             }
         }
         if(displayTrans){//render tanscubes and poting arrow
-            pa.draw(gl);
+            pointingArrow.draw(gl);
             for(int loop = 0; loop < Config.size[0]; loop++){//render bottom marks
                 for(int loop2 = 0; loop2 < Config.size[2]; loop2++) {
                     bottomMarks[loop][loop2].draw(gl);

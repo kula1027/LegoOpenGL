@@ -15,7 +15,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by notebook on 2015-10-31.
  */
-public class Obj3d_Cube implements Serializable{
+public class Obj3d_Cube{
     private float vert[] = {//face 0 ~ 5
             0.05f, 0.05f, 0, //face 0
             0.05f, 0.95f, 0,

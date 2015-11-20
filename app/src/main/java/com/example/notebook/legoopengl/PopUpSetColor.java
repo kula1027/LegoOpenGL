@@ -1,4 +1,4 @@
-package com.example.notebook.legoopengl.PopUps;
+package com.example.notebook.legoopengl;
 
 import android.app.Activity;
 import android.view.Gravity;
