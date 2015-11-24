@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.notebook.legoopengl.statics.Config;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 import java.util.Stack;
 
@@ -22,6 +24,71 @@ public class Stack3d implements Serializable{
                 }
             }
         }
+    }
+
+    public void JSONToCubeMap(JSONArray jsonArray){
+        try {
+            for (int loop = 0; loop < Config.size[0]; loop++) {
+                for(int loop2 = 0; loop2 < Config.size[1]; loop2++){
+                    for(int loop3 = 0; loop3 < Config.size[2]; loop3++){
+                        cubeMap[loop][loop2][loop3] = Integer.parseInt(jsonArray.getJSONArray(loop).getJSONArray(loop2).getString(loop3));
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void JSONToCubeMapHeight(JSONArray jsonArray){
+        try {
+            for (int loop = 0; loop < Config.size[0]; loop++) {
+                for (int loop2 = 0; loop2 < Config.size[1]; loop2++) {
+                    heightMap[loop][loop2] = Integer.parseInt(jsonArray.getJSONArray(loop).getString(loop2));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public String toJSONstr_cubeMap(){
+        String[][][] strArr = new String[Config.size[0]][Config.size[1]][Config.size[2]];
+
+        for(int loop = 0; loop < Config.size[0]; loop++){
+            for(int loop2 = 0; loop2 < Config.size[1]; loop2++){
+                for(int loop3 = 0; loop3 < Config.size[2]; loop3++){
+                    strArr[loop][loop2][loop3] = Integer.toString(cubeMap[loop][loop2][loop3]);
+                }
+            }
+        }
+
+        JSONArray ja = null;
+        try {
+            ja = new JSONArray(strArr);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return ja.toString();
+    }
+
+    public String toJSONstr_cubeMapHeight(){
+        String[][] strArr = new String[Config.size[0]][Config.size[2]];
+
+        for(int loop = 0; loop < Config.size[0]; loop++){
+            for(int loop2 = 0; loop2 < Config.size[2]; loop2++){
+                strArr[loop][loop2] = Integer.toString(heightMap[loop][loop2]);
+            }
+        }
+
+        JSONArray ja = null;
+        try {
+            ja = new JSONArray(strArr);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return ja.toString();
     }
 
     public int getHeight(int x_, int z_){//�ش� xy��ǥ�� ���� ����

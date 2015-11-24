@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:descendantFocusability="afterDescendants"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#da7171"
+        android:alpha="0.8"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="File name will be..."
+            android:id="@+id/textView"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:layout_marginBottom="10dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_save"
+            android:layout_marginBottom="5dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save It!"
+                android:id="@+id/btn_doSave"
+                android:layout_weight="1"
+                android:nestedScrollingEnabled="false"
+                android:onClick="onMenuBtns" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/btn_ccsave"
+                android:longClickable="false"
+                android:layout_weight="1"
+                android:nestedScrollingEnabled="false"
+                android:onClick="onMenuBtns" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

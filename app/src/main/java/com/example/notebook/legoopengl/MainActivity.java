@@ -1,22 +1,24 @@
 package com.example.notebook.legoopengl;
 
 import android.app.Activity;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.notebook.legoopengl.PopUps.PopUpMenu;
+import com.example.notebook.legoopengl.PopUps.PopUpSetColor;
 import com.example.notebook.legoopengl.statics.Config;
 
 
 public class MainActivity extends Activity {
     static public GamePlayView gamePlayView;
     private PopUpSetColor popUpSetColor;
+    private PopUpMenu popUpMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class MainActivity extends Activity {
         setDPI();
 
         popUpSetColor = new PopUpSetColor(getLayoutInflater());
+        popUpMenu = new PopUpMenu(getLayoutInflater());
         gamePlayView = (GamePlayView)findViewById(R.id.view);
         gamePlayView.init(this);
 
@@ -42,6 +45,42 @@ public class MainActivity extends Activity {
     protected  void onSaveInstanceState(Bundle saveState){
         super.onSaveInstanceState(saveState);
         gamePlayView.saveState(saveState);
+    }
+
+    public void onMenuBtns(View v){
+        switch (v.getId()){
+            case R.id.btn_menu:
+                popUpMenu.toggleView_Menu();
+                break;
+            case R.id.btn_save:
+                popUpMenu.onSaveBtnClicked();
+                break;
+            case R.id.btn_load:
+                popUpMenu.onLoadBtnClicked(this);
+                break;
+
+            case R.id.btn_doSave:
+                String fileName_save = popUpMenu.getStringSave();
+                if(gamePlayView.renderer.fileIO_Save(fileName_save) == true){
+                    Toast.makeText(this, "File Saved.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this, "File Save Failed.", Toast.LENGTH_SHORT).show();
+                }
+                popUpMenu.dismissSave();
+                break;
+            case R.id.btn_ccsave:
+                popUpMenu.dismissSave();
+                break;
+
+            case R.id.btn_doLoad:
+                String fileName_load = popUpMenu.getSelectedLoad();
+                gamePlayView.renderer.fileIO_Load(fileName_load);
+                popUpMenu.dismissLoad();
+                break;
+            case R.id.btn_ccload:
+                popUpMenu.dismissLoad();
+                break;
+        }
     }
 
     public void onClickBtn(View v){

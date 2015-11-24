@@ -3,12 +3,23 @@ package com.example.notebook.legoopengl;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 
 import com.example.notebook.legoopengl.object3d.Obj3d_BottomMark;
 import com.example.notebook.legoopengl.object3d.Obj3d_Cube;
 import com.example.notebook.legoopengl.object3d.Obj3d_PointingArrow;
 import com.example.notebook.legoopengl.statics.Config;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -48,7 +59,84 @@ public class MainRenderer implements GLSurfaceView.Renderer{
         displayTrans = true;
     }
 
-    ////////////////////restore & save/////////////////////////////////////////////////////
+    //////////////////////FILE IO/////////////////////////////////////////////////////////
+    public boolean fileIO_Save(String fileName){
+        if(fileName.length() != 0){
+            try
+            {
+                File file = new File(Environment.getExternalStorageDirectory(), "CubeCube");
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                File createdFile = new File(file, fileName+".cub");
+                FileWriter writer = new FileWriter(createdFile);
+
+                JSONObject jsonObject = new JSONObject();
+
+                JSONArray cubeMap = new JSONArray(stack3d.toJSONstr_cubeMap());
+                jsonObject.put("cubemap", cubeMap);
+                JSONArray cubeMapHeight = new JSONArray(stack3d.toJSONstr_cubeMapHeight());
+                jsonObject.put("cubemapheight", cubeMapHeight);
+                if(cubeMap.toString() != null) {
+                    writer.append(jsonObject.toString());
+                }else{
+                    return false;
+                }
+                writer.flush();
+                writer.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean fileIO_Load(String fileName){
+        String result = null;
+        try {
+            FileInputStream fileInputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/CubeCube/" + fileName);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+
+            result = "";
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+            fileInputStream.close();
+            bufferedReader.close();
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+
+        if(result != null){
+            try{
+                JSONObject jsonObj = new JSONObject(result);
+                stack3d.JSONToCubeMap(jsonObj.getJSONArray("cubemap"));
+                stack3d.JSONToCubeMapHeight(jsonObj.getJSONArray("cubemapheight"));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            obj3dCubeList = new ArrayList<Obj3d_Cube>();
+            pointingArrow.setPosition(new Vector3(0, stack3d.getHeight(0, 0),0));
+            pointingPos[0] = 0;
+            pointingPos[1] = 0;
+            restoreCubeList();
+
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //////////////////////FILE IO/////////////////////////////////////////////////////////
+
+    ////////////////////state restore & save/////////////////////////////////////////////////////
     public void saveState(Bundle saveState) {
         saveState.putSerializable("camera", camera);
         saveState.putSerializable("stack", stack3d);
@@ -87,7 +175,7 @@ public class MainRenderer implements GLSurfaceView.Renderer{
             }
         }
     }
-    ////////////////////restore & save/////////////////////////////////////////////////////
+    ////////////////////state restore & save/////////////////////////////////////////////////////
 
     public void setCubeColor(int idx){
         currentColor = idx;

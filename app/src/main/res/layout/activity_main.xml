@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:id="@+id/setCube"
             android:onClick="onClickBtn"
-            android:text="Cube Cube!"
+            android:text="Cube\nCube!"
             android:textStyle="bold"
             android:textColor="#6c7574"
             android:layout_weight="1" />
@@ -34,7 +34,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Choose Cube"
+            android:text="Choose\nCube"
             android:id="@+id/chCube"
             android:onClick="onClickBtn"
             android:textStyle="bold"
@@ -122,5 +122,16 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Menu"
+        android:id="@+id/btn_menu"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:alpha="0.7"
+        android:onClick="onMenuBtns" />
 
 </RelativeLayout>
