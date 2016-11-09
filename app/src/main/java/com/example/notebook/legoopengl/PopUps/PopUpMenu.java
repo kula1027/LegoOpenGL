@@ -71,16 +71,19 @@ public class PopUpMenu {
     }
     public void onLoadBtnClicked(Activity mainAct){
         popupWindow_menu.dismiss();
-        popupWindow_load.showAtLocation(popUpLoad, Gravity.CENTER, 0, 0);
-        RadioGroup radioGroup = (RadioGroup)popUpLoad.findViewById(R.id.radioGroup);
 
         File fileDir = new File(Environment.getExternalStorageDirectory(), "CubeCube");
         File fileList[] = fileDir.listFiles();
-        radioGroup.removeAllViews();
-        for (int loop = 0; loop < fileList.length; loop++) {
+        if(fileList != null){
+            popupWindow_load.showAtLocation(popUpLoad, Gravity.CENTER, 0, 0);
+            RadioGroup radioGroup = (RadioGroup)popUpLoad.findViewById(R.id.radioGroup);
+
+            radioGroup.removeAllViews();
+            for (int loop = 0; loop < fileList.length; loop++) {
                 RadioButton radioButton = new RadioButton(mainAct);
                 radioButton.setText(fileList[loop].getName());
                 radioGroup.addView(radioButton);
+            }
         }
     }
 
